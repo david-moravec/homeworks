@@ -9,12 +9,12 @@ class EulerMethod:
      self.u_a = U_A
      self.u_b = U_B
      self.iter = no
-     self.A = a
+     self.diffCoeff = a
      self.dt = dt
      self.n = n
 
      self.h = (self.b - self.a) / self.n
-     self.r = self.A * self.dt / (self.h*self.h)
+     self.r = self.diffCoeff * self.dt / (self.h*self.h)
      self.matrix, self.initCond, self.x = misc.Initialize(self.a, self.b, self.n)
 
 
@@ -29,7 +29,7 @@ class EulerMethod:
 
     for t in range(0, self.iter):
       for i in range(1, len(U_new) - 1):
-        U_new[i] += U_old[i] + r * (U_old[i-1] - 2 * U_old[i] + U_old[i+1])
+        U_new[i] = U_old[i] + r * (U_old[i-1] - 2 * U_old[i] + U_old[i+1])
 
       U_old = misc.Update(U_old, U_new)
 
@@ -41,12 +41,17 @@ class EulerMethod:
     time_diag = (1 / r) * np.ones(self.n)
     self.matrix = r * temp_matrix + np.diag(time_diag)
     U_old = self.initCond
+    #print(U_old)
  
     for t in range(0, self.iter):
-    	U_new = np.linalg.solve(self.matrix, U_old)
-    	U_old = misc.Update(U_old, U_new)
+      U_new = np.linalg.solve(self.matrix, U_old) 
+      #if t % 100 == 1:
+        #print(t, U_new)
+
+      U_old = misc.Update(U_old, U_new)
 		
     self.impl = U_new
+    print(self.impl)
 
   def PlotResults(self):
     x = self.x
