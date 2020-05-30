@@ -2,24 +2,24 @@ import os
 import math
 import EulerMethod as eu
 import misc
-import animate as an
 
 
 A = 0  # okraj intervalu - A
 B = 2*3.14159265257 #okraj intervalu - B
 U_A = 0  # dirichlet v bode A
 U_B = 0  # dirichlet v bode B
-no_iter = [1, 10, 100, 1000, int(1e4), int(1e5), int(1e6)] #pocet iteraci
+no_iter = [1, 10, 100] #pocet iteraci
 coefs = [1, 10, 100]  #koeficienty difuze
 n = 100
+dt_impl = 0.01 # expl time step je zadan podle stability
 
-for itr in no_iter:
-  for a in coefs:
-    eqn = eu.EulerMethod(A, B, U_A, U_B, 
-                         itr, a, n)
+eqn = eu.EulerMethod(A, B, U_A, U_B, n)
+
+for a in coefs:
+  for itr in no_iter:
     
-    eqn.ExplicitMethod()
-    eqn.ImplicitMethod()
+    eqn.Explicit(a, itr)
+    eqn.Implicit(dt_impl, a, itr)
     print('koeficient a = {}, pocet iteraci no_iter = {}'
            .format(a, itr))
     

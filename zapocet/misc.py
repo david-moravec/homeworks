@@ -2,11 +2,9 @@ import numpy as np
 from scipy.linalg import toeplitz
 import matplotlib.pyplot as plt
 
-def Initialize(A, B, r, n, h):
+def Initialize(A, B, n, h):
   x = np.linspace(A, B, n)
   init_cond = np.sin(x) + 1/10 * np.sin(10*x)
-
-  #matrix construction
   return init_cond, x
 
 def ImplMatrix(r, n, h):
