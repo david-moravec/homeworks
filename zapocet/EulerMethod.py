@@ -1,16 +1,15 @@
 import numpy as np
 import misc
 import matplotlib.pyplot as plt
+import parameters as par
 
 class EulerMethod:
-  def __init__(self, 
-               A, B, U_A,
-               U_B, n):
-     self.u_a = U_A
-     self.u_b = U_B
-     self.n = n
-     self.h = (B - A) / n
-     self.init_cond, self.x = misc.Initialize(A, B, self.n,
+  def __init__(self): 
+     self.u_a = par.U_A
+     self.u_b = par.U_B
+     self.n = par.n
+     self.h = (par.B - par.A) / par.n
+     self.init_cond, self.x = misc.Initialize(par.A, par.B, self.n,
                                               self.h)
 
   def Explicit(self, a, itr):
